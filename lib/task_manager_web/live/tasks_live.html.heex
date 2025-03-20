@@ -1,0 +1,192 @@
+<div class="container mx-auto">
+  <div class="flex items-center justify-between mb-4 flex-wrap md:flex-nowrap">
+    <div class="flex items-center gap-4">
+      <div>
+        <.button
+          type="button"
+          class="font-bold text-danger bg-zinc-900 hover:bg-zinc-700 hover:text-danger-hover"
+          phx-click="open_create_modal"
+        >
+          Create Task
+        </.button>
+      </div>
+
+      <div class="whitespace-nowrap">
+        Viewers: <span class="font-bold">{@online_viewers_count}</span>
+      </div>
+    </div>
+
+    <form phx-change="filter_tasks">
+      <.input
+        type="select"
+        name="status_filter"
+        options={[{"All", "all"}, {"Pending", "pending"}, {"Completed", "completed"}]}
+        value={@status_filter}
+        class="w-full md:w-auto"
+      />
+    </form>
+  </div>
+
+  <%= if @tasks != [] do %>
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto ">
+        <thead>
+          <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+            <th class="py-2 px-4 hidden md:table-cell">ID</th>
+            <th class="py-2 px-4 hidden md:table-cell">Title</th>
+            <th class="py-2 px-4 hidden md:table-cell">Description</th>
+            <th class="py-2 px-4">Status</th>
+            <th class="py-2 px-4 hidden md:table-cell">User</th>
+            <th class="py-2 px-4"></th>
+          </tr>
+        </thead>
+        <tbody class="text-gray-600 text-sm">
+          <%= for task <- @tasks do %>
+            <tr class="border-b border-gray-200">
+              <td class="py-2 px-4 hidden md:table-cell">{task.id}</td>
+              <td class="py-2 px-4 hidden md:table-cell">{task.title}</td>
+              <td class="py-2 px-4 hidden md:table-cell">{task.description}</td>
+              <td class="py-2 px-4">
+                <%= if task.status == "pending" do %>
+                  <.button
+                    phx-click="change_status"
+                    value={task.id}
+                    class="w-full bg-yellow-800 hover:bg-yellow-700 text-white px-2 py-1 rounded"
+                  >
+                    Pending
+                  </.button>
+                <% else %>
+                  <.button
+                    phx-click="change_status"
+                    value={task.id}
+                    class="w-full bg-green-800 hover:bg-green-700 text-white px-2 py-1 rounded"
+                  >
+                    Completed
+                  </.button>
+                <% end %>
+              </td>
+              <td class="py-2 px-4 hidden md:table-cell">{task.user.email}</td>
+              <td class="py-2 px-4">
+                <div class="md:hidden mt-2 space-y-1">
+                  <div><span class="font-bold">ID:</span> {task.id}</div>
+                  <div><span class="font-bold">Title:</span> {task.title}</div>
+                  <div><span class="font-bold">Description:</span> {task.description}</div>
+                  <div><span class="font-bold">User:</span> {task.user.email}</div>
+                </div>
+
+                <div class="flex space-x-2 mt-2">
+                  <.button
+                    phx-click="open_update_modal"
+                    value={task.id}
+                    class="font-bold text-success bg-zinc-900 hover:bg-zinc-700 hover:text-success-hover"
+                  >
+                    Update
+                  </.button>
+                  <.button
+                    phx-click="open_delete_modal"
+                    value={task.id}
+                    class="font-bold text-danger bg-zinc-900 hover:bg-zinc-700 hover:text-danger-hover"
+                  >
+                    Delete
+                  </.button>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="text-gray-500 text-center py-4">No tasks available</p>
+  <% end %>
+</div>
+
+<.modal :if={@create_modal_is_open} id="create-task-modal" show={true}>
+  <p class="text-center">Create new task</p>
+  <.form id="create-form" for={@form} phx-submit="create_task" phx-change="validate_task">
+    <.input field={@form[:title]} label="Title" />
+    <div class="mt-2">
+      <.input field={@form[:description]} label="Description" />
+    </div>
+    <.input
+      field={@form[:status]}
+      type="select"
+      options={[{"Pending", "pending"}, {"Completed", "completed"}]}
+    />
+    <div class="flex justify-between mt-4">
+      <.button phx-click="close_create_modal" class="bg-zinc-900 hover:bg-zinc-700" type="button">
+        Close
+      </.button>
+      <%= if @form.source.valid? do %>
+        <.button type="submit" class="bg-zinc-900 hover:bg-zinc-700 text-white px-4 py-2 rounded">
+          Create
+        </.button>
+      <% else %>
+        <.button
+          type="submit"
+          disabled={true}
+          class="bg-gray-400 text-gray-600 cursor-not-allowed px-4 py-2 rounded"
+        >
+          Create
+        </.button>
+      <% end %>
+    </div>
+  </.form>
+</.modal>
+
+<.modal :if={@update_modal_is_open} id="update-task-modal" show={true}>
+  <p>Update task <span class="font-bold">{@selected_task.title}</span></p>
+  <.form id="update-form" for={@form} phx-submit="update_task" phx-change="validate_task">
+    <.input field={@form[:title]} value={@selected_task.title} label="Title" />
+    <div class="mt-2">
+      <.input field={@form[:description]} value={@selected_task.description} label="Description" />
+    </div>
+    <.input
+      field={@form[:status]}
+      value={@selected_task.status}
+      type="select"
+      options={[{"Pending", "pending"}, {"Completed", "completed"}]}
+    />
+    <div class="flex justify-between mt-4">
+      <.button phx-click="close_update_modal" class="bg-zinc-900 hover:bg-zinc-700" type="button">
+        Close
+      </.button>
+
+      <%= if @form.source.valid? do %>
+        <.button type="submit" class="bg-zinc-900 hover:bg-zinc-700 text-white px-4 py-2 rounded">
+          Update
+        </.button>
+      <% else %>
+        <.button
+          type="submit"
+          disabled={true}
+          class="bg-gray-400 text-gray-600 cursor-not-allowed px-4 py-2 rounded"
+        >
+          Update
+        </.button>
+      <% end %>
+    </div>
+  </.form>
+</.modal>
+
+<.modal :if={@delete_modal_is_open} id="delete-task-modal" show={true}>
+  <p>
+    Are you sure that you want to delete task <span class="font-bold">{@selected_task.title}</span>?
+  </p>
+  <div class="flex justify-between mt-4">
+    <.button
+      phx-click="close_delete_modal"
+      type="button"
+      class="btn-secondary bg-zinc-900 hover:bg-zinc-700"
+    >
+      Close
+    </.button>
+    <.button
+      phx-click="delete_task"
+      type="button"
+      class="btn-danger bg-zinc-900 hover:bg-zinc-700"
+    >
+      Delete
+    </.button>
+  </div>
+</.modal>
