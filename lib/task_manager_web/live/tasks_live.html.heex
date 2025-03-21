@@ -108,11 +108,6 @@
     <div class="mt-2">
       <.input field={@form[:description]} label="Description" />
     </div>
-    <.input
-      field={@form[:status]}
-      type="select"
-      options={[{"Pending", "pending"}, {"Completed", "completed"}]}
-    />
     <div class="flex justify-between mt-4">
       <.button phx-click="close_create_modal" class="bg-zinc-900 hover:bg-zinc-700" type="button">
         Close
