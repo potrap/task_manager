@@ -12,9 +12,6 @@ defmodule TaskManager.TasksFixtures do
   def unique_task_title, do: "Task #{System.unique_integer()}"
   def valid_task_description, do: "Test task description"
 
-  @doc """
-  Generate valid task attributes with optional overrides.
-  """
   def valid_task_attributes(attrs \\ %{}) do
     user = attrs[:user] || AccountsFixtures.user_fixture()
 
@@ -26,9 +23,6 @@ defmodule TaskManager.TasksFixtures do
     })
   end
 
-  @doc """
-  Create a task fixture with optional attributes.
-  """
   def task_fixture(attrs \\ %{}) do
     attrs
     |> valid_task_attributes()
