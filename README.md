@@ -4,7 +4,7 @@ Real-time Collaborative Task Management Application built with Phoenix LiveView
 
 ## Video presentation
 
-link
+[link](https://github.com/user-attachments/assets/b056161d-4c12-45ae-8c83-0a57a294d0eb)
 
 ### Step 1: Clone the Repository
 
