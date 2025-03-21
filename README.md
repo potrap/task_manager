@@ -21,7 +21,7 @@ Move into the project folder:
 
 ### Step 3: Start Postgres with Docker
 
-Run the following command to start a Redis container using Docker Compose:
+Run the following command to start a container using Docker Compose:
 
 ```docker-compose up -d```
 
