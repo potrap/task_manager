@@ -53,10 +53,10 @@ Open http://localhost:4000 in your browser
 
 ## Project Structure
 
-├── lib/
-│ ├── task_manager
-│ │
-│ └── task_manager_web/ 
-│ ├── live/ 
-│ │ └── tasks_live.ex # Main LiveView process (tasks UI logic)
-│ │ └── tasks_live.html.heex # Real-time tasks UI template
+- ├── lib/
+- │ ├── task_manager
+- │ │
+- │ └── task_manager_web/ 
+- │ ├── live/ 
+- │ │ └── tasks_live.ex # Main LiveView process
+- │ │ └── tasks_live.html.heex # Real-time tasks UI template
