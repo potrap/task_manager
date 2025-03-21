@@ -41,7 +41,8 @@ Run the Phoenix server:
 
 Open http://localhost:4000 in your browser
 
-✅ **Core Functionality:**
+
+## ✅ Core Functionality:
 - Real-time task updates across all users (no page reloads)
 - CRUD operations for tasks with Phoenix LiveView
 - Form validation for create and update task in modals
@@ -50,7 +51,7 @@ Open http://localhost:4000 in your browser
 - User presence tracking with Phoenix.Presence
 - Interactive delete confirmation modal
 
-**Project Structure**
+## Project Structure
 
 ├── lib/
 │ ├── task_manager
