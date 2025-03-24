@@ -1,7 +1,6 @@
 <div class="container mx-auto">
-  <div class="flex items-center justify-between mb-4 flex-wrap md:flex-nowrap">
+  <div class="flex items-center justify-between mb-3 flex-wrap md:flex-nowrap">
     <div class="flex items-center gap-4">
-      <div>
         <.button
           type="button"
           class="font-bold text-danger bg-zinc-900 hover:bg-zinc-700 hover:text-danger-hover"
@@ -9,20 +8,18 @@
         >
           Create Task
         </.button>
-      </div>
 
       <div class="whitespace-nowrap">
         Viewers: <span class="font-bold">{@online_viewers_count}</span>
       </div>
     </div>
 
-    <form phx-change="filter_tasks">
+    <form phx-change="filter_tasks" class="mb-2 md:w-auto">
       <.input
         type="select"
         name="status_filter"
         options={[{"All", "all"}, {"Pending", "pending"}, {"Completed", "completed"}]}
         value={@status_filter}
-        class="w-full md:w-auto"
       />
     </form>
   </div>
