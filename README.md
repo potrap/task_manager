@@ -2,9 +2,13 @@
 
 Real-time Collaborative Task Management Application built with Phoenix LiveView
 
+## Deployment
+
+The application is deployed and available online at: https://task-manager-potrap.fly.dev
+
 ## Video presentation
 
-link
+[link](https://github.com/user-attachments/assets/b056161d-4c12-45ae-8c83-0a57a294d0eb)
 
 ### Step 1: Clone the Repository
 
@@ -21,7 +25,7 @@ Move into the project folder:
 
 ### Step 3: Start Postgres with Docker
 
-Run the following command to start a Redis container using Docker Compose:
+Run the following command to start a container using Docker Compose:
 
 ```docker-compose up -d```
 
