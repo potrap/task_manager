@@ -10,7 +10,6 @@ defmodule TaskManager.Application do
     children = [
       TaskManagerWeb.Telemetry,
       TaskManager.Repo,
-      {DNSCluster, query: Application.get_env(:task_manager, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: TaskManager.PubSub},
       TaskManagerWeb.Presence,
       # Start the Finch HTTP client for sending emails
