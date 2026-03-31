@@ -4,7 +4,7 @@ Real-time Collaborative Task Management Application built with Phoenix LiveView
 
 ## Deployment
 
-The application is deployed and available online at: [https://task-manager-potrap.fly.dev](https://task-manager-potrap-production.up.railway.app/)
+The application is deployed and available online at: https://task-manager-potrap-production.up.railway.app/
 
 ## Video presentation
 
